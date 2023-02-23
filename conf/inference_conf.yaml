@@ -1,0 +1,8 @@
+inference_conf:
+  label_map_path: ../../../saved_models/label_map.pickle
+  input_file_path: ../../../data/TestBuyDirectFullDataTSV_1-1-dev.tsv
+  output_file_path: ../../../data/results.csv
+  output_column_name: Prediction
+  text_column: Review
+  class_column: Class
+  batch_size: 32

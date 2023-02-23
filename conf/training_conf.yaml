@@ -1,0 +1,10 @@
+training_conf:
+  training_output_dir: ../../../saved_models/
+  dataset_path: ../../../data/TrainBuyDirectFullDataTSV_1-1-dev.tsv
+  text_column: Review
+  label_column: Class
+  test_size: 0.2
+  batch_size: 64
+  epochs: 5
+  learning_rate: 1e-4
+  save_steps: 500
