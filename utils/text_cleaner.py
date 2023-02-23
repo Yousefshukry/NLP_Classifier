@@ -10,7 +10,7 @@ class Cleaner():
     ''' clean text before feed it into Bert model for embedding'''
     def __init__(self):
         nltk.download('stopwords')
-        stop = stopwords.words('english')
+        self.stop = stopwords.words('english')
 
     def remove_digits(self, doc):
         '''there are numbers concatenated to words so we need remove them'''
@@ -20,7 +20,7 @@ class Cleaner():
 
     def remove_special_chars(self, doc):
         re1 = re.compile(r'  +')
-        x1 = doc.lower().replace('#39;', "'").replace('amp;', '&').replace('#146;', "'").replace(
+        x1 = doc.replace('#39;', "'").replace('amp;', '&').replace('#146;', "'").replace(
             'nbsp;', ' ').replace('#36;', '$').replace('\\n', "\n").replace('quot;', "'").replace(
             '<br />', "\n").replace('\\"', '"').replace('<unk>', 'u_n').replace(' @.@ ', '.').replace(
             ' @-@ ', '-').replace('\\', ' \\ ')
@@ -41,16 +41,20 @@ class Cleaner():
     def remove_stop_words(self, doc):
         doc = ' '.join([word for word in doc.split() if word not in (self.stop)])
         return doc
+    
+    def remove_double_spaces(self, doc):
+        return re.sub(' +', ' ', doc)
 
     def clean(self, doc):
         ''' put all the above functions togther to complete the cleaning process '''
         # the received doc as dict
         # we will be using content and titles only
-
-        doc = self.remove_special_chars(doc)
-        doc = self.remove_non_ascii(doc)
-        doc = self.remove_punctuation(doc)
-        doc = doc.lower()
-        doc = self.remove_stop_words(doc)
-        doc = doc.strip()
+        
+        doc = self.remove_punctuation(str(doc))
+        doc = self.remove_double_spaces(str(doc))
+        doc = self.remove_special_chars(str(doc))
+        doc = self.remove_non_ascii(str(doc))
+        doc = str(doc).lower()
+        doc = self.remove_stop_words(str(doc))
+        doc = str(doc).strip()
         return doc

@@ -8,7 +8,8 @@ from sklearn.metrics import classification_report, accuracy_score, f1_score, con
 import os
 from tqdm import tqdm
 import pandas as pd
-
+import seaborn as sns
+import matplotlib.pyplot as plt  
 
 class BertModel():
     def __init__(self,model_conf,num_labels,inference_flag=False):
@@ -67,10 +68,21 @@ class BertModel():
     def evaluate(self, preds, labels):
         print("Classification Report:")
         print(classification_report(labels, preds), "\n")
-
+        
         print("Confusion Matrix:")
-        print(pd.crosstab(labels, preds), "\n")
+        cm = confusion_matrix(labels, preds)
+        print(cm, "\n")
+        
+        ax= plt.subplot()
+        sns.heatmap(cm, annot=True, fmt='g', ax=ax);  #annot=True to annotate cells, ftm='g' to disable scientific notation
 
+        # labels, title and ticks
+        ax.set_xlabel('Predicted labels');ax.set_ylabel('True labels'); 
+        ax.set_title('Confusion Matrix'); 
+        ax.xaxis.set_ticklabels(self.model_conf['labels']); ax.yaxis.set_ticklabels(self.model_conf['labels']);
+        
+        plt.savefig('confusion_matrix.png')
+        
         print("Metrics:")
         # calculate precision, recall and F1 scores
         precision = precision_score(labels, preds, average='macro')
