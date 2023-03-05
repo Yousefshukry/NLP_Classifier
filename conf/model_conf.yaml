@@ -1,6 +1,8 @@
 model_conf:
   batch_size: 32
   model_name: 'bert-base-multilingual-cased'
+  labels: ["Product", "Retailer"]
   model_path: ../../../saved_models/final_model
   onnx_path: ../../../saved_models/final_onnx
   max_len: 32
+  labels: ['Product', 'Retailer']
